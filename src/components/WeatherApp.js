@@ -1,8 +1,8 @@
-// src/components/WeatherApp.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import UnitToggleButton from './UnitToggleButton';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 const WeatherApp = () => {
   // State for city input  and weatherdata
@@ -56,19 +56,26 @@ const WeatherApp = () => {
     <div>
       <h1>Weather App</h1>
 
-      {/* Form for entering the city */}
-      <form onSubmit={getCityWeather}>
-        <label>
-          Enter City:&nbsp;
-          <input type="text" value={city} onChange={handleCityChange} />
-        </label>
-        <button type="submit">Get Weather</button>
+
+      <form onSubmit={getCityWeather} style={{ display: 'flex', gap: '10px' }}>
+        <TextField
+          label="Enter a City"
+          required
+          variant="outlined"
+          value={city}
+          onChange={handleCityChange}
+        />
+        <Button variant="contained" type="submit">
+          Get Weather
+        </Button>
       </form>
+      <p></p>
+      <UnitToggleButton onToggle={handleUnitToggle} />
 
       {/* Display weather information if available */}
       {weatherData && (
         <div>
-          <h2>{weatherData.name}, {weatherData.sys.country}</h2>
+          <h3>{weatherData.name}, {weatherData.sys.country}</h3>
           <p>Temperature: {weatherData.main.temp} °{currentUnits.charAt(0)}</p>
           <p>Weather: {weatherData.weather[0].description}</p>
           {weatherData.weather[0].icon && ( 
@@ -82,7 +89,6 @@ const WeatherApp = () => {
         <p/>
       <p/>
 
-      <UnitToggleButton onToggle={handleUnitToggle} />
     </div>
   );
 };
