@@ -5,7 +5,9 @@ import './WeatherApp.css';
 import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import WbTwilightIcon from '@mui/icons-material/WbTwilight';
-import {TextField, Button, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider} from '@mui/material'
+import {TextField, Button, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider} from '@mui/material';
+import './CityAutocomplete'
+import MatCityAutocomplete from './MatCityAutocomplete';
 
 const WeatherApp = () => {
   // State for city input  and weatherdata
@@ -58,6 +60,8 @@ const WeatherApp = () => {
   return (
     <div class='main-div'>
       <h1>Weather App</h1>
+      <MatCityAutocomplete/>
+      <p/>
       <form onSubmit={getCityWeather} style={{ display: 'flex', gap: '10px' }}>
         <TextField
           label="Enter a City"

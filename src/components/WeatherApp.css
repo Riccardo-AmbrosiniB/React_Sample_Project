@@ -29,3 +29,7 @@ img {
 .max-temp {
     color: red;
 }
+
+.autocomplete {
+    width: 60%;
+}
