@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import UnitToggleButton from './UnitToggleButton';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import './WeatherApp.css';
+import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import WbTwilightIcon from '@mui/icons-material/WbTwilight';
+import {TextField, Button, Tooltip, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider} from '@mui/material'
 
 const WeatherApp = () => {
   // State for city input  and weatherdata
@@ -53,10 +56,8 @@ const WeatherApp = () => {
   };
 
   return (
-    <div>
+    <div class='main-div'>
       <h1>Weather App</h1>
-
-
       <form onSubmit={getCityWeather} style={{ display: 'flex', gap: '10px' }}>
         <TextField
           label="Enter a City"
@@ -69,26 +70,70 @@ const WeatherApp = () => {
           Get Weather
         </Button>
       </form>
-      <p></p>
-      <UnitToggleButton onToggle={handleUnitToggle} />
-
-      {/* Display weather information if available */}
-      {weatherData && (
-        <div>
-          <h3>{weatherData.name}, {weatherData.sys.country}</h3>
-          <p>Temperature: {weatherData.main.temp} °{currentUnits.charAt(0)}</p>
-          <p>Weather: {weatherData.weather[0].description}</p>
-          {weatherData.weather[0].icon && ( 
-            <img
-              src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
-              alt="Weather Icon"
-            />
-          )}
-        </div>
-      )}
-        <p/>
       <p/>
+      <UnitToggleButton onToggle={handleUnitToggle} />
+      <p/>
+      
 
+    {weatherData && (
+      <List
+      sx={{
+        width: '100%',
+        maxWidth: 360,
+        bgcolor: 'background.paper',
+      }}
+      >
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <DeviceThermostatIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText>
+            <div>
+              Current Temperature: {weatherData.main.temp} {currentUnits.charAt(0)==='K'?"":"°"}{currentUnits.charAt(0)}<br/>
+              <span class="min-temp">Min Temperature: {weatherData.main.temp_min} {currentUnits.charAt(0)==='K'?"":"°"}{currentUnits.charAt(0)}</span><br/>
+              <span class="max-temp">Max Temperature: {weatherData.main.temp_max} {currentUnits.charAt(0)==='K'?"":"°"}{currentUnits.charAt(0)}</span>
+            </div>
+          </ListItemText>
+        </ListItem>
+        <Divider variant="inset" component="li" />
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <BeachAccessIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText >
+            Weather: {weatherData.weather[0].main}
+            {weatherData.weather[0].icon && ( 
+                <Tooltip title = {weatherData.weather[0].description} placement='right'>
+                  <img
+                    src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
+                    alt="Weather Icon"
+                  />
+                </Tooltip>
+              )}
+          </ListItemText>
+        </ListItem>
+        <Divider variant="inset" component="li" />
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <WbTwilightIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText >
+            {weatherData.sys && ( 
+                <div>
+                  Sunrise time: {new Date(weatherData.sys.sunrise*1000).getHours()}:{new Date(weatherData.sys.sunrise*1000).getMinutes()}<br/>
+                  Sunset time: {new Date(weatherData.sys.sunset*1000).getHours()}:{new Date(weatherData.sys.sunset*1000).getMinutes()}
+                </div>
+              )}
+          </ListItemText>
+        </ListItem>
+      </List>
+    )}
     </div>
   );
 };
